@@ -1,0 +1,89 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "name": {
+            "type": "String",
+            "defaultValue": "templatesg1"
+        },
+        "planId": {
+            "type": "String",
+            "defaultValue": "free-100",
+            "allowedValues": [
+                "free-100",
+                "essentials-40k",
+                "essentials-100k",
+                "pro-100k",
+                "pro-300k",
+                "pro-700k",
+                "pro-1p5m",
+                "pro-2p5m"
+            ]
+        },
+        "offerId": {
+            "type": "String",
+            "defaultValue": "tsg-saas-offer",
+            "allowedValues": [
+                "tsg-saas-offer"
+            ]
+        },
+        "publisherId": {
+            "type": "String",
+            "defaultValue": "sendgrid",
+            "allowedValues": [
+                "sendgrid"
+            ]
+        },
+        "quantity": {
+            "type": "Int",
+            "defaultValue": 1
+        },
+        "termId": {
+            "type": "String"
+        },
+        "publisherTestEnvironment": {
+            "type": "String"
+        },
+        "autoRenew": {
+            "type": "Bool",
+            "defaultValue": true
+        },
+        "location": {
+            "type": "String",
+            "defaultValue": "global",
+            "allowedValues": [
+                "global"
+            ]
+        },
+        "tags": {
+            "type": "Object"
+        }
+    },
+    "functions": [],
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.SaaS/resources",
+            "apiVersion": "2018-03-01-beta",
+            "name": "[parameters('name')]",
+            "location": "[parameters('location')]",
+            "tags": "[parameters('tags')]",
+            "properties": {
+                "saasResourceName": "[parameters('name')]",
+                "publisherId": "[parameters('publisherId')]",
+                "SKUId": "[parameters('planId')]",
+                "offerId": "[parameters('offerId')]",
+                "quantity": "[parameters('quantity')]",
+                "termId": "[parameters('termId')]",
+                "autoRenew": "[parameters('autoRenew')]",
+                "paymentChannelType": "SubscriptionDelegated",
+                "paymentChannelMetadata": {
+                    "AzureSubscriptionId": "[subscription().subscriptionId]"
+                },
+                "publisherTestEnvironment": "[parameters('publisherTestEnvironment')]",
+                "storeFront": "AzurePortal"
+            }
+        }
+    ],
+    "outputs": {}
+}
